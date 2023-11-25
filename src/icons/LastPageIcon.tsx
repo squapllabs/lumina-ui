@@ -10,8 +10,8 @@ interface LastPageProps {
 }
 
 const LastPageIcon: React.FC<LastPageProps> = ({
-  width = 26,
-  height = 24,
+  width = 20,
+  height = 20,
   color = "#000",
   onClick,
   style,
@@ -25,8 +25,8 @@ const LastPageIcon: React.FC<LastPageProps> = ({
 
   return (
     <svg
-      width="20"
-      height="20"
+      width={width}
+      height={height}
       viewBox="0 0 20 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

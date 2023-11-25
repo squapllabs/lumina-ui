@@ -1,10 +1,9 @@
-/* eslint-disable react/jsx-key */
-/* eslint-disable prettier/prettier */
 import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import DropdownIcon from '../../icons/DropdownIcon';
 import CloseIcon from '../../icons/CloseIcon';
 import AddIcon from '../../icons/AddIcon';
+
  
 interface InputWrapperProps {
   width?: string;
@@ -33,9 +32,9 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   suffixIcon?: React.ReactNode;
   transparent?: boolean;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  value?: string;
-  onSelect: (e: string) => void;
-  onAddClick: (e: string) => void;
+  value?: number;
+  onSelect: (event: React.SyntheticEvent<HTMLInputElement, Event> | string | number) => void;
+  onAddClick: (e: string | number) => void;
   optionList: Option[];
   defaultLabel: string;
   addLabel: string;
@@ -150,9 +149,7 @@ const RequiredField = styled.span`
 const ErrorMessageWrapper = styled.div`
   min-height: 20px; // Change to the height of your error message
 `;
-const SelectedValue = styled.span`
-  backgroundcolor: blue;
-`;
+
 const AutoCompleteSelect: React.FC<
   InputProps & { mandatory?: boolean; showclearicon?: boolean }
 > = ({
@@ -175,12 +172,12 @@ const AutoCompleteSelect: React.FC<
   ...props
 }) => {
   const shouldShowAsterisk = mandatory;
-  const [filteredOptions, setFilteredOptions] = useState([]);
-  const [allOptions, setAllOptions] = useState(optionList); // Replace with actual data source
+  const [filteredOptions, setFilteredOptions] =  useState<Option[]>([]);
+  const [allOptions, setAllOptions] = useState<Option[]>([]) // Replace with actual data source
   const [open, setOpen] = useState(false);
   const [values, setValues] = useState('');
  
-  const handleChange = (e : any) => {
+  const handleChange = (e :  React.ChangeEvent<HTMLInputElement>) => {
     setValues(e.target.value);
     const filtered = allOptions.filter((option) =>
       option.label.toLowerCase().includes(e.target.value.toLowerCase())
@@ -191,7 +188,8 @@ const AutoCompleteSelect: React.FC<
   useEffect(() => {
     setAllOptions(optionList);
     setFilteredOptions(optionList);
-    const num: number = value;
+    const defaultValue: number = 0; 
+    const num: number = value !== undefined ? value : defaultValue;
     if (num > 0) {
       const matchingObjects = allOptions.filter(
         (obj) => Number(obj.value) === Number(value)
@@ -206,7 +204,7 @@ const AutoCompleteSelect: React.FC<
     }
   }, [value, allOptions, optionList]);
  
-  const inputRef = useRef<HTMLDivElement | null>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
  
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
@@ -270,8 +268,8 @@ const AutoCompleteSelect: React.FC<
             )}
  
             <DropdownIcon
-              onClick={(e : any) => {
-                e.stopPropagation();
+              onClick={() => {
+                // e.stopPropagation();
                 setOpen(!open);
               }}
             />
@@ -309,7 +307,7 @@ const AutoCompleteSelect: React.FC<
                 value="add"
                 onClick={() => {
                   setOpen(!open);
-                  onAddClick(value);
+                  onAddClick("add");
                 }}
               >
                 <div

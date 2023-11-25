@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
@@ -9,8 +8,8 @@ interface CheckboxProps {
   checked: boolean;
   onChange: (event: any) => void;
   disabled?: boolean;
-  width: string;
-  height: string;
+  // width:string;
+  // height:string;
 }
 
 const CheckboxContainer = styled.div`
@@ -76,8 +75,8 @@ const Checkbox: React.FC<CheckboxProps> = ({
   checked,
   onChange,
   disabled = false,
-  width = "0.75rem",
-  height = "0.75rem",
+  // width = "0.75rem",
+  // height = "0.75rem",
 }) => (
   <CheckboxContainer>
     <HiddenCheckbox
@@ -90,8 +89,8 @@ const Checkbox: React.FC<CheckboxProps> = ({
       checked={checked}
       onClick={() => onChange({ target: { checked: !checked } })}
       disabled={disabled}
-      width={width}
-      height={height}
+      // width={width}
+      // height={height}
     >
       <Icon viewBox="0 0 24 24">
         <polyline

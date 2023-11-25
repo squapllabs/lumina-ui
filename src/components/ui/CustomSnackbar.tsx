@@ -24,14 +24,19 @@ const CustomSnackbar: React.FC<CustomSnackbarProps> = ({
   }, [open]);
 
   useEffect(() => {
+    let timeoutId: NodeJS.Timeout;
+  
     if (isVisible && autoHideDuration) {
-      const timeoutId = setTimeout(() => {
+      timeoutId = setTimeout(() => {
         setIsVisible(false);
         onClose();
       }, autoHideDuration);
-
-      return () => clearTimeout(timeoutId);
     }
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    };
   }, [isVisible, autoHideDuration, onClose]);
 
   if (!isVisible) return null;
@@ -90,5 +95,5 @@ CustomSnackbar.propTypes = {
   message: ProtoTypes.string.isRequired,
   onClose: ProtoTypes.func.isRequired,
   autoHideDuration: ProtoTypes.number,
-  type: ProtoTypes.oneOf(["success", "error", "warning"]).isRequired,
+  type: ProtoTypes.oneOf(["success", "error", "warning"] as const).isRequired,
 };

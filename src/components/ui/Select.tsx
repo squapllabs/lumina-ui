@@ -141,6 +141,7 @@ const Select: FC<SelectProps & { mandatory?: boolean }> = ({
         )}
         <div onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
           <SelectContainer
+           value={value}
             width={width}
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
             placeholder={placeholder}

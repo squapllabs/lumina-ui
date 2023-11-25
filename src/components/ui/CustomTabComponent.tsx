@@ -18,7 +18,7 @@ const CustomTabComponent: React.FC<TabComponentProps> = ({
   onClick,
   activeTab,
 }) => {
-  const [selectedValue, setSelectedValue] = useState<any>();
+  const [setSelectedValue] = useState<any>();
   const handleButtonClick = (value: string) => {
     onClick(value);
     setSelectedValue(value);
@@ -27,7 +27,7 @@ const CustomTabComponent: React.FC<TabComponentProps> = ({
   return (
     <div>
       <div style={{ display: "flex" }}>
-        {labels.map(({ label, value }, index) => (
+        {labels.map(({ label, value }) => (
           <Button
             key={value}
             onClick={() => handleButtonClick(value)}

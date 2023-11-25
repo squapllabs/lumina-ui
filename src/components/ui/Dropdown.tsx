@@ -14,7 +14,7 @@ const Dropdown: React.FC<DropdownProps> = ({ label, children }) => {
     setIsOpen(!isOpen);
   };
  
-  const handleDropdownClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleDropdownClick = () => {
     toggleDropdown();
   };
  

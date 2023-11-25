@@ -4,7 +4,7 @@ interface DeleteIconProps {
   width?: number;
   height?: number;
   color?: string;
-  onClick: () => void;
+  // onClick: () => void;
   style?: React.CSSProperties;
 }
 
@@ -12,7 +12,7 @@ const DeleteIcon: FC<DeleteIconProps> = ({
   width = 18,
   height = 20,
   color = "#475467",
-  onClick,
+  // onClick,
   style,
 }) => {
   return (
@@ -24,7 +24,7 @@ const DeleteIcon: FC<DeleteIconProps> = ({
         style={style}
         fill="none"
         viewBox="0 0 18 20"
-        onClick={onClick}
+        // onClick={onClick}
       >
         <path
           stroke={color}

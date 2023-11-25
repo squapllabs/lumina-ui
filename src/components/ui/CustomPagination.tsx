@@ -47,6 +47,7 @@ const CustomPagination: React.FC<PaginationProps> = ({
     } else {
       onPageChange(pageLimitStartCount);
     }
+    return () => {};
   }, [pageLimitStartCount, pageLimitEndCount]);
 
   return (
@@ -57,7 +58,7 @@ const CustomPagination: React.FC<PaginationProps> = ({
           setMode("Prev");
           handlePageChangeDecrement(currentPage - 1);
         }}
-        style={{ pointerEvents: currentPage === 1 ? "none" : "" }}
+        style={{ pointerEvents: currentPage === 1 ? "none" : undefined }}
       >
         <FirstPageIcon disabled={currentPage === 1} width={20} height={20} />
         <span style={{ color: "#667085", fontSize: "14px", fontWeight: "400" }}>
@@ -100,10 +101,11 @@ const CustomPagination: React.FC<PaginationProps> = ({
                 </div>
               );
             }
+            return null;
           })}
           <div
             style={{
-              pointerEvents: pageLimitEndCount >= totalPages ? "none" : "",
+              pointerEvents: pageLimitEndCount >= totalPages ? "none" : undefined,
             }}
           >
             <NextPage
@@ -126,7 +128,7 @@ const CustomPagination: React.FC<PaginationProps> = ({
           setMode("Next");
           handlePageChange(currentPage + 1);
         }}
-        style={{ pointerEvents: currentPage === totalPages ? "none" : "" }}
+        style={{ pointerEvents: currentPage === totalPages ? "none" : undefined }}
       >
         <span style={{ color: "#667085", fontSize: "14px", fontWeight: "400" }}>
           Next
