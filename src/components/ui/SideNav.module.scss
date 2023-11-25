@@ -1,0 +1,25 @@
+.sideContainer {
+    height: 100vh;
+    color: #7f56d9;
+    font-weight: 100;
+    box-shadow: 5px 0 10px rgba(233, 233, 233, 0.5);
+  }
+  .side_menu {
+    ul {
+      list-style: none;
+      li {
+        padding: 12px;
+        cursor: pointer;
+        font-size: 14px;
+        &:hover {
+          background-color: #efefef;
+        }
+   
+        &.selected {
+          background-color: #d5d9eb;
+          color: black;
+          font-weight: 600;
+        }
+      }
+    }
+  }
