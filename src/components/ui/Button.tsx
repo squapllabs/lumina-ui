@@ -11,7 +11,8 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     | "cancel"
     | "search"
     | "reset"
-    | "draft";
+    | "draft"
+    | "delete"
   size?: "small" | "medium" | "large";
   shape?: "rectangle" | "rounded" | "outlined";
   icon?: React.ReactNode;
@@ -46,6 +47,23 @@ const cancelStyles = css`
 
   &:active {
     background: #fef3f2;
+  }
+
+  &:disabled {
+    background: #e9d7fe;
+  }
+`;
+const deleteStyles = css`
+  background: #D92D20
+  ;
+  color: white;
+
+  &:hover {
+    background: #F04438;
+  }
+
+  &:active {
+    background: #D92D20;
   }
 
   &:disabled {
@@ -167,6 +185,7 @@ const StyledButton = styled.button<ButtonProps>`
   width: ${({ fullWidth }) => (fullWidth ? "100%" : "auto")};
 
   ${({ color }) => color === "primary" && primaryStyles}
+  ${({ color }) => color === "delete" && deleteStyles}
   ${({ color }) => color === "cancel" && cancelStyles}
   ${({ color }) => color === "search" && searchStyles}
   ${({ color }) => color === "reset" && resetStyles}
@@ -224,6 +243,7 @@ Button.propTypes = {
     "search",
     "reset",
     "draft",
+    "delete"
   ]),
   size: PropTypes.oneOf(["small", "medium", "large"]),
   shape: PropTypes.oneOf(["rectangle", "rounded", "outlined"]),

@@ -18,10 +18,10 @@ const CustomTabComponent: React.FC<TabComponentProps> = ({
   onClick,
   activeTab,
 }) => {
-  const [setSelectedValue] = useState<any>();
+  // const [setSelectedValue] = useState<any>();
   const handleButtonClick = (value: string) => {
     onClick(value);
-    setSelectedValue(value);
+    // setSelectedValue(value);
   };
 
   return (

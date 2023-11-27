@@ -10,7 +10,6 @@ interface DialogBoxProps {
   handleClose: () => void;
   handleConfirm: () => void;
   contentLine1: string;
-  contentLine2: string;
 }
 
 const DeleteDialogBox: React.FC<DialogBoxProps> = ({
@@ -19,7 +18,6 @@ const DeleteDialogBox: React.FC<DialogBoxProps> = ({
   handleClose,
   handleConfirm,
   contentLine1,
-  contentLine2,
 }) => {
   if (!open) return null;
 
@@ -46,7 +44,7 @@ const DeleteDialogBox: React.FC<DialogBoxProps> = ({
   };
 
   const titleStyle: React.CSSProperties = {
-    padding: "10px 10px 1px 10px",
+    // padding: "10px 10px 1px 10px",
   };
 
   const contentStyle: React.CSSProperties = {
@@ -54,60 +52,44 @@ const DeleteDialogBox: React.FC<DialogBoxProps> = ({
     fontSize: "smaller",
   };
 
-  const buttonStyle: React.CSSProperties = {
-    margin: "10px",
-    padding: "6px 12px",
-    border: "none",
-    borderRadius: "4px",
-    cursor: "pointer",
-  };
-
-  const cancelButtonStyle: React.CSSProperties = {
-    ...buttonStyle,
-    borderRadius: "8px",
-  };
-
-  const conformButtonStyle: React.CSSProperties = {
-    ...buttonStyle,
-    backgroundColor: "#D92D20",
-    color: "white",
-    borderRadius: "8px",
-  };
-
   const mainContentStyle: React.CSSProperties = {
     display: "flex",
     flexDirection: "row",
+    justifyContent: "space-between",
+    gap:'20px'
   };
 
   const iconContentStyle: React.CSSProperties = {
-    padding: "15px",
+    // padding: "15px",
   };
 
   return (
     <div style={dialogStyle}>
       <div style={boxStyle}>
         <div style={mainContentStyle}>
-          <div style={iconContentStyle}>
-            <DeleteIcon color="red" />
-          </div>
           <div>
-            <h4 style={titleStyle}>{title}</h4>
-            <p style={contentStyle}>{contentLine1}</p>
-            <p style={contentStyle}>{contentLine2}</p>
+            <div  style={{display:'flex',flexDirection:'row',gap:'10px'}}>
+            <DeleteIcon color="red" />
+            <span style={titleStyle}>{title}</span>
+            </div>
           </div>
           <div style={iconContentStyle}>
             <CloseIcon onClick={handleClose} />
           </div>
+        </div>
+        <div>
+          <p style={contentStyle}>{contentLine1}</p>
         </div>
         <div
           style={{
             display: "flex",
             flexDirection: "row",
             justifyContent: "flex-end",
+            gap:'5px'
           }}
         >
           <Button
-            style={cancelButtonStyle}
+            color="cancel"
             shape="rectangle"
             justify="center"
             size="small"
@@ -116,7 +98,7 @@ const DeleteDialogBox: React.FC<DialogBoxProps> = ({
             Cancel
           </Button>
           <Button
-            style={conformButtonStyle}
+            color="delete"
             shape="rectangle"
             justify="center"
             size="small"
@@ -138,5 +120,4 @@ DeleteDialogBox.propTypes = {
   handleClose: ProtoTypes.func.isRequired,
   handleConfirm: ProtoTypes.func.isRequired,
   contentLine1: ProtoTypes.string.isRequired,
-  contentLine2: ProtoTypes.string.isRequired,
 };
