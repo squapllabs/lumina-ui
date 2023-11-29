@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 interface Option {
@@ -12,7 +12,7 @@ interface CustomRadioGroupProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
   options: Option[];
-  defaultValue: string;
+  defaultValue?: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   containerStyle?: React.CSSProperties;
   labelStyle?: React.CSSProperties;
@@ -38,7 +38,7 @@ const HoverableLabel = styled.label<{ disabled?: boolean }>`
     content: '';
     display: ${({ disabled }) => (disabled ? 'none' : 'block')};
     position: absolute;
-    border: 2px solid #3366ff; /* Add the border color you want */
+    border: 2px solid #3366ff;
     border-width: 2px;
     border-style : medium;
     border-radius : 50%;
@@ -62,7 +62,7 @@ const RadioInput = styled.input<{ disabled?: boolean }>`
 `;
 
 const LabelBody = styled.div`
-  width : max-content;
+  width : min-content;
 `;
 
 const RequiredField = styled.span`
@@ -72,14 +72,17 @@ const RequiredField = styled.span`
 const CustomRadioGroup: React.FC<CustomRadioGroupProps> = ({
   label,
   options,
-  defaultValue,
-  onChange,
   containerStyle,
   labelStyle,
   optionContainerStyle,
   mandatory = false,
   disabled = false,
 }) => {
+  const [selectedValue, setSelectedValue] = useState<string | undefined>(undefined);
+
+  const handleChange = (value: string) => {
+    setSelectedValue(value);
+  };
   const shouldShowAsterisk = mandatory;
   return (
     <div style={containerStyle}>
@@ -92,8 +95,8 @@ const CustomRadioGroup: React.FC<CustomRadioGroupProps> = ({
             <RadioInput
               type="radio"
               value={option.value}
-              checked={defaultValue === option.value}
-              onChange={onChange}
+              checked={selectedValue === option.value}
+              onChange={() => handleChange(option.value)}
               disabled={disabled}
             />
             {option.label}
