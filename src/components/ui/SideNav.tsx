@@ -1,6 +1,6 @@
-import React from "react";
+import React,{useState} from "react";
 import ProtoTypes from "prop-types";
-import Styles from "./SideNav.module.scss";
+// import Styles from "./SideNav.module.scss";
 
 interface MenuItem {
   id: number;
@@ -21,16 +21,46 @@ const SideNav: React.FC<SideNavProps> = ({
   const onItemClick = (id: number) => {
     handleMenuItemClick(id); // Call the parent function to handle the click action if needed.
   };
+  const handleMouseEnter = (id: number) => {
+    setHoveredItem(id);
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredItem(null);
+  };
+  const sideContainer: React.CSSProperties = {
+    height: "100vh",
+    color: "#7f56d9",
+    fontWeight: 100,
+    boxShadow: "5px 0 10px rgba(233, 233, 233, 0.5)",
+  };
+  const side_menu: React.CSSProperties = {
+    listStyle: "none",
+  };
+  const [hoveredItem, setHoveredItem] = useState<number | null>(null);
   return (
-    <div className={Styles.sideContainer}>
-      <div className={Styles.side_menu}>
-        <ul>
+    <div style={sideContainer}>
+      <div>
+        <ul style={side_menu}>
           {menuItems.map((item) => (
-            <li
-              key={item.id}
-              className={selectedItem === item.id ? Styles.selected : ""}
-              onClick={() => onItemClick(item.id)}
-            >
+             <li
+             key={item.id}
+             style={{
+              padding: '12px',
+              cursor: 'pointer',
+              fontSize: '14px',
+              fontWeight: selectedItem === item.id ? 600 : 'normal',
+              backgroundColor: selectedItem === item.id
+                ? '#d5d9eb'
+                : hoveredItem === item.id
+                ? '#efefef'
+                : 'transparent',
+                color: selectedItem === item.id ? 'black' : 'inherit',
+              }}
+             onClick={() => onItemClick(item.id)}
+             onMouseEnter={() => handleMouseEnter(item.id)}
+             onMouseLeave={handleMouseLeave}
+           >
               {item.name}
             </li>
           ))}
@@ -45,5 +75,5 @@ export default SideNav;
 SideNav.propTypes = {
   menuItems: ProtoTypes.array.isRequired,
   handleMenuItemClick: ProtoTypes.func.isRequired,
-  selectedItem: ProtoTypes.number.isRequired, // Add the propType for selectedItem
+  selectedItem: ProtoTypes.number.isRequired, 
 };

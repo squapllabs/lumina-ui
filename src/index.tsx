@@ -17,6 +17,22 @@ import Radio from './components/ui/Radio'
 import Select from './components/ui/Select'
 import SideNav from './components/ui/SideNav'
 import TextArea from './components/ui/TextArea'
+import ToggleSwitch from './components/ui/ToggleSwitch'
+import Divider from './components/ui/Divider'
+import Avatar from './components/ui/Avatar'
+import Stepper from './components/ui/Stepper'
+import CheckBoxGroup from './components/ui/CheckboxGroup'
+import AddIcon from './icons/AddIcon'
+import CheckIcon from './icons/CheckIcon'
+import CloseIcon from './icons/CloseIcon'
+import DeleteIcon from './icons/DeleteIcon'
+import DropdownIcon from './icons/DropdownIcon'
+import FirstPageIcon from './icons/FirstPageIcon'
+import LastPageIcon from './icons/LastPageIcon'
+import MailIcon from './icons/MailIcon'
+import NextPageIcon from './icons/NextPageIcon'
+import PreviousPageIcon from './icons/PreviousPageIcon'
+import WarningIcon from './icons/WarningIcon'
 
 export {
   AutoCompleteSelect,
@@ -36,5 +52,21 @@ export {
   Radio,
   Select,
   SideNav,
-  TextArea
+  TextArea,
+  ToggleSwitch,
+  Divider,
+  Avatar,
+  Stepper,
+  CheckBoxGroup,
+  AddIcon,
+  CloseIcon,
+  CheckIcon,
+  DeleteIcon,
+  DropdownIcon,
+  FirstPageIcon,
+  LastPageIcon,
+  MailIcon,
+  NextPageIcon,
+  PreviousPageIcon,
+  WarningIcon
 }

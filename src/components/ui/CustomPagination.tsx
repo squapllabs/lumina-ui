@@ -3,7 +3,6 @@ import FirstPageIcon from "../../icons/FirstPageIcon";
 import LastPageIcon from "../../icons/LastPageIcon";
 import NextPage from "../../icons/NextPageIcon";
 import PreviousPage from "../../icons/PreviousPageIcon";
-import Styles from "./CustomPagination.module.scss";
 import ProtoTypes from "prop-types";
 
 interface PaginationProps {
@@ -47,18 +46,94 @@ const CustomPagination: React.FC<PaginationProps> = ({
     } else {
       onPageChange(pageLimitStartCount);
     }
-    return () => {};
+    return () => {
+      
+    }
   }, [pageLimitStartCount, pageLimitEndCount]);
 
+  const container: React.CSSProperties = {
+    border: "1px solid #fff",
+    width:'100%',
+    padding: "8px",
+    borderRadius: "6px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: "20px",
+    height: "40px"
+  };
+
+  const navigateIcon: React.CSSProperties = {
+    display:'flex',
+    gap:'10px',
+    alignItems:'center',
+    cursor:'pointer',
+    pointerEvents: currentPage === 1 ? "none"  : undefined
+   };
+
+   const navigateIconLast: React.CSSProperties = {
+    display:'flex',
+    gap:'10px',
+    alignItems:'center',
+    cursor:'pointer',
+    pointerEvents: currentPage === totalPages ? "none" : undefined
+   };
+   const numberCount: React.CSSProperties = {
+    display:'flex',
+    flexDirection:'row',
+    gap:'20px',
+    alignItems:'center',
+   };
+
+   const selected: React.CSSProperties = {
+    borderRadius:'50%',
+    backgroundColor:'#c2c4c5',
+    display:'flex',
+    alignItems:'center',
+    justifyContent:'center',
+    overflow:'hidden',
+    width: '30px',
+    height: '30px',
+    cursor: 'pointer',
+    fontSize: '14px',
+    fontWeight:'500',
+    color:'#7F56D9!important'
+   };
+
+   const menu_item: React.CSSProperties = {
+    borderRadius:'8px',
+    display:'flex',
+    alignItems:'center',
+    justifyContent:'center',
+    overflow:'hidden',
+    width: '30px',
+    height: '30px',
+    cursor: 'pointer',
+    fontSize: '14px',
+    fontWeight:'500',
+   };
+   const menu_items: React.CSSProperties = {
+    borderRadius:'8px',
+    display:'flex',
+    alignItems:'center',
+    justifyContent:'center',
+    overflow:'hidden',
+    width: '30px',
+    height: '30px',
+    cursor: 'pointer',
+    fontSize: '14px',
+    fontWeight:'500',
+    color:'#667085!important'
+   };
+
   return (
-    <div className={Styles.container}>
+    <div style={container}>
       <div
-        className={Styles.navigateIcon}
+      style={navigateIcon}
         onClick={() => {
           setMode("Prev");
           handlePageChangeDecrement(currentPage - 1);
         }}
-        style={{ pointerEvents: currentPage === 1 ? "none" : undefined }}
       >
         <FirstPageIcon disabled={currentPage === 1} width={20} height={20} />
         <span style={{ color: "#667085", fontSize: "14px", fontWeight: "400" }}>
@@ -66,7 +141,7 @@ const CustomPagination: React.FC<PaginationProps> = ({
         </span>
       </div>
       <div>
-        <div className={Styles.numberCount}>
+        <div style={numberCount}>
           <div>
             <PreviousPage
               width={10}
@@ -86,12 +161,7 @@ const CustomPagination: React.FC<PaginationProps> = ({
             ) {
               return (
                 <div key={index}>
-                  <div
-                    className={
-                      currentPage === value
-                        ? `${Styles.menu_item} ${Styles.selected}`
-                        : `${Styles.menu_items}`
-                    }
+                  <div style={currentPage === value ? { ...menu_item, ...selected } : menu_items}
                     onClick={() => {
                       handleClickChange(value);
                     }}
@@ -101,7 +171,6 @@ const CustomPagination: React.FC<PaginationProps> = ({
                 </div>
               );
             }
-            return null;
           })}
           <div
             style={{
@@ -121,14 +190,12 @@ const CustomPagination: React.FC<PaginationProps> = ({
           </div>
         </div>
       </div>
-
       <div
-        className={Styles.navigateIcon}
+       style={navigateIconLast}
         onClick={() => {
           setMode("Next");
           handlePageChange(currentPage + 1);
         }}
-        style={{ pointerEvents: currentPage === totalPages ? "none" : undefined }}
       >
         <span style={{ color: "#667085", fontSize: "14px", fontWeight: "400" }}>
           Next

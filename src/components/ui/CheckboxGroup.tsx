@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 interface Option {
@@ -6,19 +6,21 @@ interface Option {
   label: string;
   disabled?: boolean;
   mandatory?: boolean;
+  checked?:boolean;
 }
 
-interface CustomRadioGroupProps
+interface CustomCheckboxGroupProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
   options: Option[];
-  defaultValue: string;
+  defaultValues: string[];
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   containerStyle?: React.CSSProperties;
   labelStyle?: React.CSSProperties;
   optionContainerStyle?: React.CSSProperties;
   mandatory?: boolean;
   disabled?: boolean;
+  checked?:boolean;
 }
 
 const HoverableLabel = styled.label<{ disabled?: boolean }>`
@@ -34,45 +36,49 @@ const HoverableLabel = styled.label<{ disabled?: boolean }>`
     transform: ${({ disabled }) => (disabled ? 'none' : 'scale(1.2)')};
   }
 
+  &:hover > input:checked {
+    background-color: #3366ff;
+  }
+
   &:hover > input::before {
     content: '';
     display: ${({ disabled }) => (disabled ? 'none' : 'block')};
     position: absolute;
-    border: 2px solid #3366ff; /* Add the border color you want */
+    border: 2px solid #3366ff;
     border-width: 2px;
-    border-style : medium;
-    border-radius : 50%;
+    border-radius : 5px
     box-sizing: border-box;
-    width: 15px;
-    height: 15px;
+    width: 10px;
+    height: 10px;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -52%);
+    transform: translate(-50%, -50%);
   }
 `;
 
-const RadioInput = styled.input<{ disabled?: boolean }>`
+const CheckboxInput = styled.input<{checked?: boolean; disabled?: boolean }>`
   position: relative;
-  transition: background-color 0.3s, transform 0.3s;
   cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
-  &:before {
-    content: '';
-    display: none;
+  margin: 0;
+
+  &:checked {
+    background-color: ${({ checked }) => (checked ? '#3366ff' : 'transparent')};
   }
 `;
 
 const LabelBody = styled.div`
-  width : max-content;
+width : max-content;
+min-width : auto;
 `;
 
 const RequiredField = styled.span`
   color: red;
 `;
 
-const CustomRadioGroup: React.FC<CustomRadioGroupProps> = ({
+const CustomCheckboxGroup: React.FC<CustomCheckboxGroupProps> = ({
   label,
   options,
-  defaultValue,
+  defaultValues,
   onChange,
   containerStyle,
   labelStyle,
@@ -80,7 +86,26 @@ const CustomRadioGroup: React.FC<CustomRadioGroupProps> = ({
   mandatory = false,
   disabled = false,
 }) => {
+  
   const shouldShowAsterisk = mandatory;
+  
+  // State to keep track of selected values
+  const [selectedValues, setSelectedValues] = useState<string[]>(defaultValues);
+
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setSelectedValues((prevSelectedValues) => {
+      if (prevSelectedValues.includes(value)) {
+        return prevSelectedValues.filter((item) => item !== value);
+      } else {
+        return [...prevSelectedValues, value];
+      }
+    });
+    if (onChange) {
+      onChange(event);
+    }
+  };
+
   return (
     <div style={containerStyle}>
       <label style={labelStyle}>
@@ -89,12 +114,12 @@ const CustomRadioGroup: React.FC<CustomRadioGroupProps> = ({
       <LabelBody style={optionContainerStyle}>
         {options.map((option) => (
           <HoverableLabel key={option.value} disabled={disabled}>
-            <RadioInput
-              type="radio"
+            <CheckboxInput
+              type="checkbox"
               value={option.value}
-              checked={defaultValue === option.value}
-              onChange={onChange}
-              disabled={disabled}
+              checked={selectedValues.includes(option.value)}
+              onChange={handleCheckboxChange}
+              disabled={disabled || option.disabled}
             />
             {option.label}
           </HoverableLabel>
@@ -104,4 +129,4 @@ const CustomRadioGroup: React.FC<CustomRadioGroupProps> = ({
   );
 };
 
-export default CustomRadioGroup;
+export default CustomCheckboxGroup;
