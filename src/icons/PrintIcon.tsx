@@ -14,7 +14,6 @@ const PrintIcon: FC<PrintIconProps> = ({
   color = '#475467',
   style,
   onClick,
-  ...props
 }) => {
   return (
     <div title="Print" onClick={onClick} style={style} role="button">

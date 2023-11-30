@@ -3,7 +3,6 @@ import React, { FC } from 'react';
 interface NewRejectIconProps {
   width?: number;
   height?: number;
-  color?: string;
   onClick: () => void;
   style?: React.CSSProperties;
 }
@@ -11,10 +10,8 @@ interface NewRejectIconProps {
 const NewRejectIcon: FC<NewRejectIconProps> = ({
   width = 25,
   height = 25,
-  color = '#475467',
   onClick,
   style,
-  ...props
 }) => {
   return (
     <div title="Reject" onClick={onClick} style={style} role="button">

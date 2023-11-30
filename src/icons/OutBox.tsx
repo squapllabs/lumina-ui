@@ -1,4 +1,4 @@
-import React, { FC, CSSProperties } from 'react';
+import React, { FC } from 'react';
 
 interface OutBoxIconProps {
   width?: number;

@@ -4,15 +4,12 @@ interface ExpandCloseProps extends SVGProps<SVGSVGElement> {
   color?: string;
   height?: string | number;
   width?: string | number;
-  style?: any;
 }
 
 const ExpandClose: React.FC<ExpandCloseProps> = ({
   color,
   height = '1em',
   width = '1em',
-  style = {},
-  ...props
 }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
