@@ -19,9 +19,10 @@ interface CustomRadioGroupProps
   optionContainerStyle?: React.CSSProperties;
   mandatory?: boolean;
   disabled?: boolean;
+  error?: string;
 }
 
-const HoverableLabel = styled.label<{ disabled?: boolean }>`
+const HoverableLabel = styled.label<{ disabled?: boolean; }>`
   margin-right: 10px;
   display: flex;
   gap: 5px;
@@ -40,8 +41,8 @@ const HoverableLabel = styled.label<{ disabled?: boolean }>`
     position: absolute;
     border: 2px solid #3366ff;
     border-width: 2px;
-    border-style : medium;
-    border-radius : 50%;
+    border-style: medium;
+    border-radius: 50%;
     box-sizing: border-box;
     width: 15px;
     height: 15px;
@@ -61,12 +62,25 @@ const RadioInput = styled.input<{ disabled?: boolean }>`
   }
 `;
 
+const Label = styled.label<{error?: string}>`
+  font-weight : 600
+`;
+
 const LabelBody = styled.div`
-  width : min-content;
+  width: min-content;
 `;
 
 const RequiredField = styled.span`
   color: red;
+`;
+
+const ErrorMessageWrapper = styled.div`
+  min-height: 20px;
+`;
+
+const InputError = styled.span`
+  color: red;
+  font-size: 0.75rem;
 `;
 
 const CustomRadioGroup: React.FC<CustomRadioGroupProps> = ({
@@ -77,8 +91,12 @@ const CustomRadioGroup: React.FC<CustomRadioGroupProps> = ({
   optionContainerStyle,
   mandatory = false,
   disabled = false,
+  defaultValue,
+  error = '',
 }) => {
-  const [selectedValue, setSelectedValue] = useState<string | undefined>(undefined);
+  const [selectedValue, setSelectedValue] = useState<string | undefined>(
+    defaultValue
+  );
 
   const handleChange = (value: string) => {
     setSelectedValue(value);
@@ -86,12 +104,12 @@ const CustomRadioGroup: React.FC<CustomRadioGroupProps> = ({
   const shouldShowAsterisk = mandatory;
   return (
     <div style={containerStyle}>
-      <label style={labelStyle}>
+      <Label style={labelStyle}>
         {label} {shouldShowAsterisk && <RequiredField>*</RequiredField>}{' '}
-      </label>
+      </Label>
       <LabelBody style={optionContainerStyle}>
         {options.map((option) => (
-          <HoverableLabel key={option.value} disabled={disabled}>
+          <HoverableLabel key={option.value} disabled={disabled} >
             <RadioInput
               type="radio"
               value={option.value}
@@ -103,6 +121,13 @@ const CustomRadioGroup: React.FC<CustomRadioGroupProps> = ({
           </HoverableLabel>
         ))}
       </LabelBody>
+      {error === '' ? (
+        <div></div>
+      ) : (
+        <ErrorMessageWrapper>
+          {error && <InputError>{error}</InputError>}
+        </ErrorMessageWrapper>
+      )}
     </div>
   );
 };

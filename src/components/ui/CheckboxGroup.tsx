@@ -6,7 +6,7 @@ interface Option {
   label: string;
   disabled?: boolean;
   mandatory?: boolean;
-  checked?:boolean;
+  checked?: boolean;
 }
 
 interface CustomCheckboxGroupProps
@@ -20,7 +20,8 @@ interface CustomCheckboxGroupProps
   optionContainerStyle?: React.CSSProperties;
   mandatory?: boolean;
   disabled?: boolean;
-  checked?:boolean;
+  checked?: boolean;
+  error?: string;
 }
 
 const HoverableLabel = styled.label<{ disabled?: boolean }>`
@@ -56,7 +57,7 @@ const HoverableLabel = styled.label<{ disabled?: boolean }>`
   }
 `;
 
-const CheckboxInput = styled.input<{checked?: boolean; disabled?: boolean }>`
+const CheckboxInput = styled.input<{ checked?: boolean; disabled?: boolean }>`
   position: relative;
   cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
   margin: 0;
@@ -66,39 +67,52 @@ const CheckboxInput = styled.input<{checked?: boolean; disabled?: boolean }>`
   }
 `;
 
+const Label = styled.label<{error?: string}>`
+  font-weight : 600
+`;
+
 const LabelBody = styled.div`
-width : max-content;
-min-width : auto;
+  width: max-content;
 `;
 
 const RequiredField = styled.span`
   color: red;
 `;
 
+const ErrorMessageWrapper = styled.div`
+  min-height: 20px;
+`;
+
+const InputError = styled.span`
+  color: red;
+  font-size: 0.75rem;
+`;
+
 const CustomCheckboxGroup: React.FC<CustomCheckboxGroupProps> = ({
   label,
   options,
-  defaultValues,
+  defaultValues = [], 
   onChange,
   containerStyle,
   labelStyle,
   optionContainerStyle,
   mandatory = false,
   disabled = false,
+  error = '',
 }) => {
-  
   const shouldShowAsterisk = mandatory;
-  
+
   // State to keep track of selected values
   const [selectedValues, setSelectedValues] = useState<string[]>(defaultValues);
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     setSelectedValues((prevSelectedValues) => {
-      if (prevSelectedValues.includes(value)) {
-        return prevSelectedValues.filter((item) => item !== value);
+      const selectedValuesCopy = prevSelectedValues || []; // Initialize to an empty array if undefined
+      if (selectedValuesCopy.includes(value)) {
+        return selectedValuesCopy.filter((item) => item !== value);
       } else {
-        return [...prevSelectedValues, value];
+        return [...selectedValuesCopy, value];
       }
     });
     if (onChange) {
@@ -108,12 +122,12 @@ const CustomCheckboxGroup: React.FC<CustomCheckboxGroupProps> = ({
 
   return (
     <div style={containerStyle}>
-      <label style={labelStyle}>
+      <Label style={labelStyle} >
         {label} {shouldShowAsterisk && <RequiredField>*</RequiredField>}{' '}
-      </label>
+      </Label>
       <LabelBody style={optionContainerStyle}>
         {options.map((option) => (
-          <HoverableLabel key={option.value} disabled={disabled}>
+          <HoverableLabel key={option.value} disabled={disabled} >
             <CheckboxInput
               type="checkbox"
               value={option.value}
@@ -125,6 +139,13 @@ const CustomCheckboxGroup: React.FC<CustomCheckboxGroupProps> = ({
           </HoverableLabel>
         ))}
       </LabelBody>
+      {error === '' ? (
+        <div></div>
+      ) : (
+        <ErrorMessageWrapper>
+          {error && <InputError>{error}</InputError>}
+        </ErrorMessageWrapper>
+      )}
     </div>
   );
 };

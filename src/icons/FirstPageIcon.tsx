@@ -10,8 +10,8 @@ interface FirstPageProps {
 }
 
 const FirstPageIcon: React.FC<FirstPageProps> = ({
-  width = 24,
-  height = 24,
+  width = 14,
+  height = 14,
   color = "#000",
   onClick,
   style,
