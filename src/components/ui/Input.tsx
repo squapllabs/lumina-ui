@@ -7,13 +7,14 @@ interface InputWrapperProps {
 }
  
 interface StyledInputProps {
-  error?: boolean;
+  error?: string | boolean
   hasprefixicon?: boolean;
   hassuffixicon?: boolean;
   transparent?: boolean;
   disabled?: boolean;
   errorDisable?: boolean;
   borderError?: boolean;
+  theme?:string;
 }
  
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -27,6 +28,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   disabled?: boolean;
   errorDisable?: boolean;
   borderError?: boolean;
+  theme?: string;
 }
  
 const InputWrapper = styled.div<InputWrapperProps>`
@@ -36,10 +38,10 @@ const InputWrapper = styled.div<InputWrapperProps>`
   width: ${(props) => props.width || '100%'};
 `;
  
-const StyledLabel = styled.label`
+const StyledLabel = styled.label<{theme : any}>`
   margin-bottom: 4px;
   font-size: 0.8rem;
-  color: #333c44;
+  color: ${(props) => (props.theme === 'dark' ? '#a7a9ab' : '#333c44')};
   font-weight: 600;
 `;
  
@@ -51,11 +53,10 @@ const InputContainer = styled.div<StyledInputProps>`
     `0 ${props.hassuffixicon ? '32px' : '12px'} 0 ${
       props.hasprefixicon ? '32px' : '12px'
     }`};
- 
   border: 1px solid ${(props: any) => (props.error ? 'red' : '#ccc')};
   border-radius: 4px;
-  background-color: ${(props) =>
-    props.transparent ? 'transaparent' : '#FFFFFF'};
+  background-color: ${(props : any) =>
+    (props.theme === 'dark' ? '#494a52' : '#fffff')};
   cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
   opacity: ${(props) => (props.disabled ? 0.7 : 1)};
   &:hover {
@@ -64,7 +65,7 @@ const InputContainer = styled.div<StyledInputProps>`
   }
   &:focus-within {
     outline: 0;
-    box-shadow: ${(props) => (props.disabled ? 'none' : '0 0 0 2px #68717840')};
+    box-shadow: ${(props) => (props.disabled ? 'none' : props.theme === 'dark' ? '0 0 0 2px #52D3D8' : '0 0 0 2px #68717840')};
   }
 `;
  
@@ -72,12 +73,13 @@ const StyledInput = styled.input<StyledInputProps>`
   height: 34px;
   padding: ${(props) => `6px ${props.hassuffixicon ? '32px' : '0'} 6px 0`};
   border: none;
-  background-color: ${(props) => (props.disabled ? '#FFFFFF' : 'transparent')};
+  background-color: ${(props) => (props.theme === 'dark' ? '#494a52' : '#FFFFFF')};
   pointer-events: ${(props) => (props.disabled ? 'none' : 'auto')};
-  color: ${(props) => (props.disabled ? '#888' : 'inherit')};
+  color: ${(props) => (props.disabled ? '#888' : props.theme === 'dark' ? 'white' : 'inherit')};
   flex-grow: 1;
   &:focus {
     outline: none;
+    caret-color: ${(props) => (props.theme === 'dark' ? '#a7a9ab' : 'black')}
   }
   box-sizing: border-box;
 `;
@@ -121,24 +123,27 @@ const Input: React.FC<InputProps & { mandatory?: boolean }> = ({
   errorDisable = false,
   borderError = false,
   mandatory = false,
+  theme = 'light',
   ...props
 }) => {
   const shouldShowAsterisk = mandatory;
+  const hasError = !!error;
   return (
     <InputWrapper width={width}>
       {label && (
-        <StyledLabel>
+        <StyledLabel theme={theme}>
           {label} {shouldShowAsterisk && <RequiredField>*</RequiredField>}{' '}
         </StyledLabel>
       )}
       <InputContainer
-        error={!!error}
+        error={hasError}
         hasprefixicon={!!prefixIcon}
         hassuffixicon={!!suffixIcon}
         transparent={transparent}
         disabled={disabled}
+        theme={theme}
         style={{
-          borderColor: borderError ? 'red' : error ? 'red' : '#ccc',
+          borderColor: borderError ? 'red' : hasError  ? 'red' :  theme === 'dark'? '#52D3D8' : '#ccc',
         }}
       >
         {prefixIcon && <PrefixIconWrapper>{prefixIcon}</PrefixIconWrapper>}
@@ -146,19 +151,16 @@ const Input: React.FC<InputProps & { mandatory?: boolean }> = ({
           hassuffixicon={!!suffixIcon}
           placeholder={placeholder}
           disabled={disabled}
+          theme={theme}
           autoComplete="off"
           {...props}
         />
         {suffixIcon && <SuffixIconWrapper>{suffixIcon}</SuffixIconWrapper>}
       </InputContainer>
-      {!!error === false ? (
-        <div></div>
-      ) : (
-        !errorDisable && (
-          <ErrorMessageWrapper>
-            {error && <InputError>{error}</InputError>}
-          </ErrorMessageWrapper>
-        )
+      {(hasError || !errorDisable) && (
+        <ErrorMessageWrapper>
+          {hasError && <InputError>{error}</InputError>}
+        </ErrorMessageWrapper>
       )}
     </InputWrapper>
   );
@@ -177,4 +179,5 @@ Input.propTypes = {
   disabled: PropTypes.bool,
   errorDisable: PropTypes.bool,
   borderError: PropTypes.bool,
+  theme: PropTypes.oneOf(['light', 'dark']),
 };

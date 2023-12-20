@@ -11,7 +11,7 @@ interface SelectProps {
   children: React.ReactNode;
   label?: string;
   name?: string;
-  error?: boolean;
+  error?: string | boolean;
   helperText?: string;
   disabled?: boolean;
 }
@@ -190,7 +190,7 @@ Select.propTypes = {
   children: PropTypes.node.isRequired,
   label: PropTypes.string,
   name: PropTypes.string,
-  error: PropTypes.bool,
+  error: PropTypes.string,
   helperText: PropTypes.string,
   disabled: PropTypes.bool,
   mandatory: PropTypes.bool,

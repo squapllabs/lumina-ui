@@ -7,7 +7,7 @@ interface InputWrapperProps {
 }
 
 interface StyledInputProps {
-  error?: boolean;
+  error?: string | boolean;
 }
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {

@@ -14,23 +14,29 @@ npm install --save lumina-ui
 
 ```tsx
 import {
-  Button,
-  Input,
-  Checkbox,
-  CustomSnackbar,
-  Select,
-  TextArea,
   AutoCompleteSelect,
+  Button,
+  SubmitDialogBox,
+  Checkbox,
   CustomChipWithDelete,
+  CustomGroupButton,
+  CustomLoader,
+  CustomPagination,
+  CustomSnackbar,
+  CustomTabComponent,
   DatePicker,
   DeleteDialogBox,
-  SubmitDialogBox,
-  CustomGroupButton,
-  CustomTabComponent,
-  CustomPagination,
-  CustomLoader,
   Dropdown,
-  SideNav
+  Input,
+  Radio,
+  Select,
+  SideNav,
+  TextArea,
+  ToggleSwitch,
+  Divider,
+  Avatar,
+  Stepper,
+  CheckBoxGroup,
 } from "lumina-ui";
 import "lumina-ui/dist/index.css";
 

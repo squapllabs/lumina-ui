@@ -84,6 +84,7 @@ import Telephone from './icons/Telephone'
 import TickIcon from './icons/TickIcon'
 import ViewIcon from './icons/ViewIcon'
 import ZIcon from './icons/ZIcon'
+import EditIcon from './icons/EditIcon'
 
 
 export {
@@ -171,5 +172,6 @@ export {
   Telephone,
   TickIcon,
   ViewIcon,
-  ZIcon
+  ZIcon,
+  EditIcon
 }

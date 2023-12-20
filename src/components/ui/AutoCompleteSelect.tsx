@@ -302,7 +302,7 @@ const AutoCompleteSelect: React.FC<
                 </div>
               );
             })}
-            {addLabel != null && (
+            {addLabel && (
               <li
                 value="add"
                 onClick={() => {
