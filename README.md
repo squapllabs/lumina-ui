@@ -37,6 +37,7 @@ import {
   Avatar,
   Stepper,
   CheckBoxGroup,
+  MenuBar
 } from "lumina-ui";
 import "lumina-ui/dist/index.css";
 

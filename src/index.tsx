@@ -24,6 +24,7 @@ import Stepper from './components/ui/Stepper'
 import CheckBoxGroup from './components/ui/CheckboxGroup'
 import BreadCrumbs from './components/ui/BreadCrumbs'
 import CustomRightSidePopup from './components/ui/CustomRightSidePopup'
+import MenuBar from './components/ui/MenuBar'
 import AddIcon from './icons/AddIcon'
 import CheckIcon from './icons/CheckIcon'
 import CloseIcon from './icons/CloseIcon'
@@ -124,6 +125,7 @@ export {
   WarningIcon,
   BreadCrumbs,
   CustomRightSidePopup,
+  MenuBar,
   AddCircleIcon,
   ApproveIcon,
   AscendingIcon,
