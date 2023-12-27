@@ -25,6 +25,7 @@ import CheckBoxGroup from './components/ui/CheckboxGroup'
 import BreadCrumbs from './components/ui/BreadCrumbs'
 import CustomRightSidePopup from './components/ui/CustomRightSidePopup'
 import MenuBar from './components/ui/MenuBar'
+import InputThemeCheck from './components/ui/InputThemeCheck'
 import AddIcon from './icons/AddIcon'
 import CheckIcon from './icons/CheckIcon'
 import CloseIcon from './icons/CloseIcon'
@@ -86,6 +87,7 @@ import TickIcon from './icons/TickIcon'
 import ViewIcon from './icons/ViewIcon'
 import ZIcon from './icons/ZIcon'
 import EditIcon from './icons/EditIcon'
+import { ThemeProvider } from './theme/ThemeProvider';
 
 
 export {
@@ -126,6 +128,7 @@ export {
   BreadCrumbs,
   CustomRightSidePopup,
   MenuBar,
+  InputThemeCheck,
   AddCircleIcon,
   ApproveIcon,
   AscendingIcon,
@@ -175,5 +178,6 @@ export {
   TickIcon,
   ViewIcon,
   ZIcon,
-  EditIcon
+  EditIcon,
+  ThemeProvider
 }
