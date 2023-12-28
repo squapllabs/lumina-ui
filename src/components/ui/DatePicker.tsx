@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
+import { useTheme } from '../../theme/ThemeProvider'
 
 interface InputWrapperProps {
   width?: string;
@@ -8,6 +9,7 @@ interface InputWrapperProps {
 
 interface StyledInputProps {
   error?: string | boolean;
+  theme?:string;
 }
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -26,23 +28,24 @@ const InputWrapper = styled.div<InputWrapperProps>`
   width: ${(props) => props.width || "100%"};
 `;
 
-const StyledLabel = styled.label`
+const StyledLabel = styled.label<{theme : any}>`
   margin-bottom: 4px;
   font-size: 0.8rem;
-  color: #333c44;
+  color: ${(props) => (props.theme === 'dark' ? '#a7a9ab' : '#333c44')};
   font-weight: 600;
 `;
+ 
 
 const InputContainer = styled.div<StyledInputProps>`
   position: relative;
   display: flex;
   align-items: center;
   padding: 0 12px;
-  border: 1px solid ${(props) => (props.error ? "red" : "#ccc")};
+  border: 1px solid ${(props) => (props.error ? "red" : props.theme === 'dark' ? '#888' :  "#ccc")};
   border-radius: 4px;
-  background-color: #ffffff;
+  background-color: ${(props) => ( props.theme === 'dark' ? '#494a52' :  "white")};
   &:hover {
-    border-color: #888;
+    border-color: ${(props) => ( props.theme === 'dark' ? 'white' :  "")};
   }
   &:focus-within {
     outline: 0;
@@ -50,16 +53,17 @@ const InputContainer = styled.div<StyledInputProps>`
   }
 `;
 
-const StyledInput = styled.input`
+const StyledInput = styled.input<{theme : string}>`
   height: 34px;
   padding: 6px 0;
   border: none;
-  background-color: transparent;
+  background-color: ${(props) => ( props.theme === 'dark' ? '#494a52' :  "white")};
   flex-grow: 1;
   &:focus {
     outline: none;
   }
   box-sizing: border-box;
+  color:${(props) => ( props.theme === 'dark' ? 'white' :  "black")}
 `;
 
 const InputError = styled.span`
@@ -87,19 +91,21 @@ const DatePicker: React.FC<InputProps> = ({
   ...props
 }) => {
   const shouldShowAsterisk = mandatory;
+  const { theme } = useTheme()
   return (
     <InputWrapper width={width}>
       {label && (
-        <StyledLabel>
+        <StyledLabel theme={theme}>
           {label} {shouldShowAsterisk && <RequiredField>*</RequiredField>}
         </StyledLabel>
       )}
-      <InputContainer error={!!error}>
+      <InputContainer error={!!error} theme={theme}>
         <StyledInput
           type="date"
           placeholder={placeholder}
           min={min}
           max={max}
+          theme={theme}
           {...props}
         />
       </InputContainer>

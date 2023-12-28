@@ -1,8 +1,7 @@
-/* eslint-disable react/jsx-key */
-/* eslint-disable prettier/prettier */
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
+import { useTheme } from '../../theme/ThemeProvider'
 
 interface InputWrapperProps {
   width?: string;
@@ -19,6 +18,7 @@ interface TextAreaProps
   rows?: number;
   maxCharacterCount?: number;
   value?: string;
+  theme?:string;
 }
 
 const InputWrapper = styled.div<InputWrapperProps>`
@@ -28,10 +28,10 @@ const InputWrapper = styled.div<InputWrapperProps>`
   width: ${(props) => props.width || "100%"};
 `;
 
-const StyledLabel = styled.label`
+const StyledLabel = styled.label<{ theme: string }>`
   margin-bottom: 4px;
   font-size: 0.8rem;
-  color: #333c44;
+  color: ${(props) => (props.theme === "dark" ? "#a7a9ab" : "#333c44")};
   font-weight: 600;
 `;
 
@@ -40,9 +40,10 @@ const StyledTextArea = styled.textarea<TextAreaProps>`
   border: 1px solid ${(props) => (props.error ? "red" : "#ccc")};
   border-radius: 4px;
   resize: vertical;
-  background-color: #ffffff;
+  background-color: ${(props) => (props.theme === 'dark' ? "#494a52" : "white")};
+  color: ${(props) => (props.theme === 'dark' ? "white" : "black")};
   &:hover {
-    border-color: #888;
+    border-color: #ccc;
   }
   &:focus {
     outline: none;
@@ -103,10 +104,11 @@ const TextArea: React.FC<TextAreaProps & { mandatory?: boolean }> = ({
     setCharacterCount(remainingCharacters);
   }, [currentValue, maxCharacterCount]);
   const shouldShowAsterisk = mandatory;
+  const { theme } = useTheme()
   return (
     <InputWrapper width={width} height={height}>
       {label && (
-        <StyledLabel>
+        <StyledLabel theme={theme}>
           {label} {shouldShowAsterisk && <RequiredField>*</RequiredField>}
         </StyledLabel>
       )}
@@ -117,6 +119,7 @@ const TextArea: React.FC<TextAreaProps & { mandatory?: boolean }> = ({
         onChange={props.onChange}
         value={value}
         maxLength={maxCharacterCount}
+        theme={theme}
         {...props}
       />
       {maxCharacterCount && (
