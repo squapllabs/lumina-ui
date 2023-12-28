@@ -88,6 +88,7 @@ import ViewIcon from './icons/ViewIcon'
 import ZIcon from './icons/ZIcon'
 import EditIcon from './icons/EditIcon'
 import { ThemeProvider } from './theme/ThemeProvider';
+import { useTheme } from './theme/ThemeProvider';
 
 
 export {
@@ -179,5 +180,6 @@ export {
   ViewIcon,
   ZIcon,
   EditIcon,
-  ThemeProvider
+  ThemeProvider,
+  useTheme,
 }
