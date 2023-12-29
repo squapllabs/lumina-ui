@@ -1,6 +1,7 @@
 import React from "react";
 import Button from "./Button";
 import PropTypes from "prop-types";
+import { useTheme } from '../../theme/ThemeProvider'
 
 interface ButtonData {
   label: string;
@@ -11,6 +12,7 @@ interface GroupButtonProps {
   labels: ButtonData[];
   onClick: (value: string) => void;
   activeButton?: string | null;
+  theme?:string
 }
 
 const CustomGroupButton: React.FC<GroupButtonProps> = ({
@@ -21,7 +23,7 @@ const CustomGroupButton: React.FC<GroupButtonProps> = ({
   const handleButtonClick = (value: string) => {
     onClick(value);
   };
-
+  const { theme } = useTheme()
   return (
     <div style={{ display: "flex" }}>
       {labels.map(({ label, value }, index) => (
@@ -29,7 +31,7 @@ const CustomGroupButton: React.FC<GroupButtonProps> = ({
           key={value}
           onClick={() => handleButtonClick(value)}
           style={{
-            backgroundColor: activeButton === value ? "#D0D5DD" : "white",
+            backgroundColor: activeButton === value ? "#D0D5DD" : theme === 'dark' ? "#888" : 'white',
             color: activeButton === value ? "black" : "black",
             border: "1px solid #D0D5DD",
             padding: "10px 16px",
