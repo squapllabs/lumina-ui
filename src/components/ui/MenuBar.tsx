@@ -1,10 +1,12 @@
-import React, { useState,useEffect,useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
+import { useTheme } from '../../theme/ThemeProvider'
 
 interface MenuItem {
   label: string;
   onClick?: () => void;
   subMenuItems?: MenuItem[];
+  hasSubMenu?: boolean;
 }
 
 interface DropdownProps {
@@ -13,14 +15,16 @@ interface DropdownProps {
 }
 
 const DropdownContainer = styled.div`
-  position: relative;
+  position: absolute;
+  z-index: 1500;
   display: inline-block;
 `;
 
-const MenuItemContainer = styled.div`
-padding: 10px 20px 10px 15px;
+const MenuItemContainer = styled.div<{ theme: string }>`
+  padding: 10px 20px 10px 15px;
   cursor: pointer;
-  background-color: #fff;
+  background-color: ${({ theme }) => (theme === "dark" ? "#333" : "#fff")};
+  color: ${({ theme }) => (theme === "dark" ? "#fff" : "#333")};
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   &:hover {
     font-weight: bold;
@@ -39,15 +43,15 @@ padding: 10px 20px 10px 15px;
   &:last-child {
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
-  } 
+  }
 `;
 
-const SubMenuContainer = styled.div<{ top: number}>`
+const SubMenuContainer = styled.div<{ top: number }>`
   position: absolute;
-  top: ${({ top }) => `${top-55}px`};
+  top: ${({ top }) => `${top - 65}px`};
   left: 102%;
   min-width: 150px;
-  background-color: white;
+  background-color: #333;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   &:not(:first-child):not(:last-child) {
     border-radius: 0;
@@ -63,20 +67,25 @@ const SubMenuContainer = styled.div<{ top: number}>`
   &:last-child {
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
-  } 
+  }
 `;
 
-const SubMenuItemContainer = styled(MenuItemContainer)`
-padding: 10px 20px 10px 15px;
-font-weight: normal;
-background-color: white;
+const SubMenuItemContainer = styled(MenuItemContainer)<{ theme: string }>`
+  padding: 10px 20px 10px 15px;
+  font-weight: normal;
+  background-color: ${({ theme }) => theme === 'dark' ? '#333' : 'white'};
+  color: ${({ theme }) => theme === 'dark' ? '#fff' : '#333'};
 `;
 
-const MenuBar: React.FC<DropdownProps> = ({ isOpen, menuItems }) => {
+const MenuBar: React.FC<DropdownProps> = ({
+  isOpen,
+  menuItems,
+}) => {
   const [hoveredMenuItem, setHoveredMenuItem] = useState<string | null>(null);
-  const [subMenuPosition, setSubMenuPosition] = useState<{ top: number; }>({
+  const [subMenuPosition, setSubMenuPosition] = useState<{ top: number }>({
     top: 0,
   });
+  const [menuOpen, setMenuOpen] = useState(isOpen);
   const menuRef = useRef<HTMLDivElement | null>(null);
 
   const handleMenuItemHover = (label: string, rect: DOMRect) => {
@@ -85,36 +94,75 @@ const MenuBar: React.FC<DropdownProps> = ({ isOpen, menuItems }) => {
     setSubMenuPosition({ top });
   };
 
+  const handleMenuItemClick = (
+    onClick: (() => void) | undefined,
+    hasSubMenu: boolean
+  ) => {
+    if (onClick) {
+      onClick();
+    }
+    if (!hasSubMenu) {
+      setMenuOpen(false);
+    }
+  };
+
+  const handleSubMenuItemClick = (onClick: (() => void) | undefined) => {
+    if (onClick) {
+      onClick();
+      setMenuOpen(false);
+    }
+  };
+
   const handleMenuLeave = () => {
     setHoveredMenuItem(null);
-    setSubMenuPosition({ top: 0});
+    setSubMenuPosition({ top: 0 });
   };
+
   useEffect(() => {
     const handleClickOutside = (event: any) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
-        isOpen=false;
+        setMenuOpen(false);
       }
     };
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, [setMenuOpen]);
 
+  useEffect(() => {
+    setMenuOpen(isOpen);
+  }, [isOpen]);
+  const { theme } = useTheme()
   return (
     <DropdownContainer onMouseLeave={handleMenuLeave} ref={menuRef}>
-      {isOpen && (
+      {menuOpen && (
         <div>
           {menuItems.map((item, index) => (
             <MenuItemContainer
               key={index}
-              onMouseEnter={(e) => handleMenuItemHover(item.label, e.currentTarget.getBoundingClientRect())}
+              theme={theme}
+              onMouseEnter={(e) =>
+                handleMenuItemHover(
+                  item.label,
+                  e.currentTarget.getBoundingClientRect()
+                )
+              }
+              onClick={() =>
+                handleMenuItemClick(item.onClick, item.hasSubMenu || false)
+              }
             >
               {item.label}
               {hoveredMenuItem === item.label && item.subMenuItems && (
-                <SubMenuContainer  top={subMenuPosition.top}>
+                <SubMenuContainer top={subMenuPosition.top}>
                   {item.subMenuItems.map((subMenuItem, subIndex) => (
-                    <SubMenuItemContainer key={subIndex}>
+                    <SubMenuItemContainer
+                      theme={theme}
+                      key={subIndex}
+                      onClick={() =>
+                        handleSubMenuItemClick(subMenuItem.onClick)
+                      }
+                    >
                       {subMenuItem.label}
                     </SubMenuItemContainer>
                   ))}

@@ -2,6 +2,7 @@ import React from "react";
 import Button from "../ui/Button";
 import CloseIcon from "../../icons/CloseIcon";
 import ProtoTypes from "prop-types";
+import { useTheme } from '../../theme/ThemeProvider'
 
 interface DialogBoxProps {
   title: string;
@@ -19,7 +20,7 @@ const DialogBox: React.FC<DialogBoxProps> = ({
   contentLine1,
 }) => {
   if (!open) return null;
-
+  const { theme } = useTheme()
   const dialogStyle: React.CSSProperties = {
     position: "fixed",
     top: "0",
@@ -34,7 +35,7 @@ const DialogBox: React.FC<DialogBoxProps> = ({
   };
 
   const boxStyle: React.CSSProperties = {
-    backgroundColor: "#fff",
+    backgroundColor: theme === 'dark' ? '#333' : '#fff', 
     padding: "20px",
     boxShadow: "0 0 10px rgba(0, 0, 0, 0.2)",
     maxWidth: "400px",
@@ -45,41 +46,40 @@ const DialogBox: React.FC<DialogBoxProps> = ({
     borderWidth: "1px",
   };
 
-  const titleStyle: React.CSSProperties = {
-    // padding: "10px 10px 1px 0px",
-    // backgroundColor: "red",
-  };
-
-  const contentStyle: React.CSSProperties = {
-    padding: "8px 8px 8px 10px",
-    fontSize: "smaller",
-  };
-
   const mainContentStyle: React.CSSProperties = {
     display: "flex",
     flexDirection: "row",
-    justifyContent:'space-between'
+    justifyContent: "space-between",
   };
 
   const iconContentStyle: React.CSSProperties = {
-    // padding: "15px",
-    // backgroundColor: "green",
-    height:"20px"
+    height: "20px",
   };
 
   return (
     <div style={dialogStyle}>
       <div style={boxStyle}>
         <div style={mainContentStyle}>
-          <div>
-            <span style={titleStyle}>{title}</span>
+          <div style={{ color: theme === "dark" ? "white" : "black" }}>
+            <span>{title}</span>
           </div>
           <div style={iconContentStyle}>
-            <CloseIcon onClick={handleClose} />
+            <CloseIcon
+              color={theme === "dark" ? "white" : "#475467"}
+              onClick={handleClose}
+            />
           </div>
         </div>
         <div>
-          <p style={contentStyle}>{contentLine1}</p>
+          <p
+            style={{
+              color: theme === "dark" ? "white" : "black",
+              padding: "8px 8px 8px 10px",
+              fontSize: "smaller",
+            }}
+          >
+            {contentLine1}
+          </p>
         </div>
         <div
           style={{

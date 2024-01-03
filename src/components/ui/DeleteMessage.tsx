@@ -3,6 +3,7 @@ import DeleteIcon from "../../icons/DeleteIcon";
 import Button from "../ui/Button";
 import CloseIcon from "../../icons/CloseIcon";
 import ProtoTypes from "prop-types";
+import { useTheme } from '../../theme/ThemeProvider'
 
 interface DialogBoxProps {
   title: string;
@@ -20,7 +21,7 @@ const DeleteDialogBox: React.FC<DialogBoxProps> = ({
   contentLine1,
 }) => {
   if (!open) return null;
-
+  const { theme } = useTheme()
   const dialogStyle: React.CSSProperties = {
     position: "fixed",
     top: "0",
@@ -34,7 +35,7 @@ const DeleteDialogBox: React.FC<DialogBoxProps> = ({
   };
 
   const boxStyle: React.CSSProperties = {
-    backgroundColor: "#fff",
+    backgroundColor: theme === 'dark' ? '#333' : '#fff',
     padding: "20px",
     borderRadius: "4px",
     boxShadow: "0 0 10px rgba(0, 0, 0, 0.2)",
@@ -43,20 +44,19 @@ const DeleteDialogBox: React.FC<DialogBoxProps> = ({
     flexDirection: "column",
   };
 
-  const titleStyle: React.CSSProperties = {
-    // padding: "10px 10px 1px 10px",
-  };
+ 
 
   const contentStyle: React.CSSProperties = {
     padding: "8px",
     fontSize: "smaller",
+    color: theme === "dark" ? "white" : "black",
   };
 
   const mainContentStyle: React.CSSProperties = {
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
-    gap:'20px'
+    gap: "20px",
   };
 
   const iconContentStyle: React.CSSProperties = {
@@ -68,13 +68,18 @@ const DeleteDialogBox: React.FC<DialogBoxProps> = ({
       <div style={boxStyle}>
         <div style={mainContentStyle}>
           <div>
-            <div  style={{display:'flex',flexDirection:'row',gap:'10px'}}>
-            <DeleteIcon color="red" />
-            <span style={titleStyle}>{title}</span>
+            <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
+              <DeleteIcon color={theme === "dark" ? "white" : "red"} />
+              <span style={{ color: theme === "dark" ? "white" : "black" }}>
+                {title}
+              </span>
             </div>
           </div>
           <div style={iconContentStyle}>
-            <CloseIcon onClick={handleClose} />
+            <CloseIcon
+              color={theme === "dark" ? "white" : "#475467"}
+              onClick={handleClose}
+            />
           </div>
         </div>
         <div>
@@ -85,7 +90,7 @@ const DeleteDialogBox: React.FC<DialogBoxProps> = ({
             display: "flex",
             flexDirection: "row",
             justifyContent: "flex-end",
-            gap:'5px'
+            gap: "5px",
           }}
         >
           <Button

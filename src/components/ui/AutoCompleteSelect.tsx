@@ -37,7 +37,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   onSelect: (e: React.SyntheticEvent<HTMLInputElement, Event> | string) => void;
   onAddClick: (e: string) => void;
   optionList: Option[];
-  defaultLabel: string;
+  defaultLabel?: string;
   addLabel: string;
   theme?: string;
 }
