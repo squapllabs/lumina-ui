@@ -54,10 +54,10 @@ const CustomSidePopup: React.FC<DialogBoxProps> = ({
     borderBottom: '1px solid #e0e0e0',
     color: theme === 'dark' ? 'white' : 'black'
   }
-  const main_content: React.CSSProperties = {
-    width: '100%',
-    height: '100%'
-  }
+  // const main_content: React.CSSProperties = {
+  //   width: '100%',
+  //   height: '100%'
+  // }
   const dialogStyle: React.CSSProperties = {
     position: 'fixed',
     top: 0,
@@ -85,7 +85,14 @@ const CustomSidePopup: React.FC<DialogBoxProps> = ({
               />
             </button>
           </div>
-          <div style={main_content}>{content}</div>
+          <div
+            style={{
+              overflowX: 'hidden',
+              overflowY: 'auto'
+            }}
+          >
+            {content}
+          </div>
         </div>
       </div>
     </div>

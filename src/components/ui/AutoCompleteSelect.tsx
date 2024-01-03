@@ -33,9 +33,9 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   suffixIcon?: React.ReactNode;
   transparent?: boolean;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  value?: number;
-  onSelect: (event: React.SyntheticEvent<HTMLInputElement, Event> | string | number) => void;
-  onAddClick: (e: string | number) => void;
+  value?: string;
+  onSelect: (e: React.SyntheticEvent<HTMLInputElement, Event> | string) => void;
+  onAddClick: (e: string) => void;
   optionList: Option[];
   defaultLabel: string;
   addLabel: string;
@@ -177,11 +177,12 @@ const AutoCompleteSelect: React.FC<
 }) => {
   const shouldShowAsterisk = mandatory;
   const [filteredOptions, setFilteredOptions] =  useState<Option[]>([]);
-  const [allOptions, setAllOptions] = useState<Option[]>([]) // Replace with actual data source
+  const [allOptions, setAllOptions] = useState<Option[]>(optionList)
+  // const [allOptions, setAllOptions] = useState<Option[]>([]) // Replace with actual data source
   const [open, setOpen] = useState(false);
   const [values, setValues] = useState("");
 
-  const handleChange = (e :  React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e :  any) => {
     setValues(e.target.value);
     const filtered = allOptions.filter((option) =>
       option.label.toLowerCase().includes(e.target.value.toLowerCase())
@@ -192,8 +193,8 @@ const AutoCompleteSelect: React.FC<
   useEffect(() => {
     setAllOptions(optionList);
     setFilteredOptions(optionList);
-    const defaultValue: number = 0; 
-    const num: number = value !== undefined ? value : defaultValue;
+    // const defaultValue: number = 0; 
+    const num: number = Number(value);
     if (num > 0) {
       const matchingObjects = allOptions.filter(
         (obj) => Number(obj.value) === Number(value)
@@ -299,7 +300,7 @@ const AutoCompleteSelect: React.FC<
                   <li
                     key={option.value}
                     onClick={() => {
-                      onSelect(option.value);
+                      onSelect(String(option.value));
                       setOpen(false);
                       setValues(option.label);
                     }}

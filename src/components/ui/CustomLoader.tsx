@@ -1,10 +1,9 @@
 import React from "react";
 import ProtoTypes from "prop-types";
-import { useTheme } from '../../theme/ThemeProvider'
 interface PageLoaderProps {
   loading: boolean;
   size?: number;
-  // color?: string;
+  color?: string;
   children?: any;
   theme?:string;
 }
@@ -12,10 +11,10 @@ interface PageLoaderProps {
 const CustomLoader: React.FC<PageLoaderProps> = ({
   loading,
   size = 20,
-  // color = "#000",
+  color = "#000",
   children,
 }) => {
-  const { theme } = useTheme()
+  // const { theme } = useTheme()
   const spinnerStyle: React.CSSProperties = {
     display: "flex",
     justifyContent: "center",
@@ -23,10 +22,9 @@ const CustomLoader: React.FC<PageLoaderProps> = ({
     width: 38,
     height: 38,
     borderRadius: "50%",
-    border: `${size / 8}px solid ${theme === 'dark' ? 'white' : '#333C44'}`,
+    border: `${size / 8}px solid ${color}`,
     borderTop: `${size / 8}px solid transparent`,
     animation: "spin 2s linear infinite",
-    // color:color
   };
 
   return (
