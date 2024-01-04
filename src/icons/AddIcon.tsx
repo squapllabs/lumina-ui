@@ -1,4 +1,5 @@
 import React from "react";
+import { useTheme } from '../theme/ThemeProvider'
 
 interface AddIconProps {
   width?: number;
@@ -13,6 +14,8 @@ const AddIcon: React.FC<AddIconProps> = ({
   color = "#7f56d",
   style,
 }) => {
+  const { theme } = useTheme()
+  const strokeColor = theme === 'dark' ? 'white' : 'black';
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -23,7 +26,7 @@ const AddIcon: React.FC<AddIconProps> = ({
     >
       <path
         d="M19 11H13V5c0-.55-.45-1-1-1s-1 .45-1 1v6H5c-.55 0-1 .45-1 1s.45 1 1 1h6v6c0 .55.45 1 1 1s1-.45 1-1v-6h6c.55 0 1-.45 1-1s-.45-1-1-1z"
-        fill={color}
+        fill={color ? color : strokeColor}
       />
     </svg>
   );
