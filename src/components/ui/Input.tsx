@@ -49,8 +49,8 @@ const InputContainer = styled.div<StyledInputProps>`
   display: flex;
   align-items: center;
   padding: ${(props: any) =>
-    `0 ${props.hassuffixicon ? '32px' : '12px'} 0 ${
-      props.hasprefixicon ? '32px' : '12px'
+    `0 ${props.hassuffixicon ? '32px' : '2px'} 0 ${
+      props.hasprefixicon ? '32px' : '2px'
     }`};
   border: 1px solid ${(props: any) => (props.error ? 'red' : '#ccc')};
   border-radius: 4px;
@@ -74,6 +74,7 @@ const InputContainer = styled.div<StyledInputProps>`
 
 const StyledInput = styled.input<StyledInputProps>`
   height: 34px;
+  width:90px;
   padding: ${(props) => `6px ${props.hassuffixicon ? '32px' : '0'} 6px 0`};
   border: none;
   background-color: ${(props) =>
