@@ -50,7 +50,7 @@ const InputContainer = styled.div<StyledInputProps>`
   align-items: center;
   padding: ${(props: any) =>
     `0 ${props.hassuffixicon ? '32px' : '2px'} 0 ${
-      props.hasprefixicon ? '32px' : '2px'
+      props.hasprefixicon ? '32px' : '8px'
     }`};
   border: 1px solid ${(props: any) => (props.error ? 'red' : '#ccc')};
   border-radius: 4px;

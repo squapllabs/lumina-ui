@@ -340,13 +340,13 @@ const AutoCompleteSelect: React.FC<
           </OptionList>
         )}
       </OptionContainer>
-      {!!error === false ? (
+      {/* {!!error === false ? (
         <div></div>
-      ) : (
+      ) : ( */}
         <ErrorMessageWrapper>
           {error && <InputError>{error}</InputError>}
         </ErrorMessageWrapper>
-      )}
+      {/* )} */}
     </InputWrapper>
   );
 };
